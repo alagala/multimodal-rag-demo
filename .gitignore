@@ -1,0 +1,48 @@
+# Ignore nested Git directories (useful for submodules or nested repos)
+**/.git/
+
+# Environment variable files
+.env
+.env.*
+.env.local
+.envrc
+*.env
+
+# Caches and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+.cache/
+.cache/*
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Node
+node_modules/
+
+# Editor/OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Build / distribution
+dist/
+build/
+
+# Terraform state and folders
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Coverage reports
+.coverage
+coverage/
+htmlcov/

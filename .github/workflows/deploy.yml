@@ -1,0 +1,48 @@
+name: Deploy App (Functions + App Service)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install deps (frontend)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r src/frontend/requirements.txt
+
+      - name: Run tests
+        run: |
+          # Add frontend tests here if present
+          echo "No frontend tests configured"
+
+      - name: Build & Zip frontend
+        run: |
+          cd src/frontend
+          zip -r ../../artifacts/frontend.zip .
+
+      - name: Deploy frontend to App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.APP_SERVICE_NAME }}
+          package: artifacts/frontend.zip
+
+      - name: Deploy Functions app (zip deploy)
+        uses: azure/functions-action@v1
+        with:
+          app-name: ${{ secrets.FUNCTION_APP_NAME }}
+          package: path/to/functions/package.zip
+
+      - name: Post-deploy health check
+        run: |
+          echo "Add health checks or smoke tests here"
